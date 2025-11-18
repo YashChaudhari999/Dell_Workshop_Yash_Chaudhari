@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Catalog - User-Centric Filter</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Product Catalog</h1>
+            <div class="user-info">
+                <span class="user-icon">👤</span>
+                <span class="user-name">Welcome, John Doe</span>
+            </div>
+        </header>
+        
+        <div class="main-content">
+            <!-- User-Centric Filter Sidebar -->
+            <aside class="filter-sidebar">
+                <h2>Filters</h2>
+                
+                <!-- User-Centric Section: Personalized for You -->
+                <div class="filter-section user-centric">
+                    <h3>👤 For You</h3>
+                    <div class="filter-group">
+                        <h4>Your Saved Filters</h4>
+                        <div class="saved-filters">
+                            <button class="saved-filter-btn" data-filter="electronics-budget">
+                                🔖 Electronics Under $500
+                            </button>
+                            <button class="saved-filter-btn" data-filter="premium-laptops">
+                                💼 Premium Laptops
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <h4>Recently Viewed Categories</h4>
+                        <div class="recent-categories">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="recent-category" value="laptops">
+                                💻 Laptops <span class="recent-badge">Recent</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="recent-category" value="smartphones">
+                                📱 Smartphones <span class="recent-badge">Recent</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <h4>Based on Your Activity</h4>
+                        <div class="personalized-suggestions">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="suggested" value="gaming">
+                                🎮 Gaming Accessories
+                                <span class="suggestion-badge">Suggested</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="suggested" value="audio">
+                                🎧 Audio Equipment
+                                <span class="suggestion-badge">Suggested</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Standard Filters -->
+                <div class="filter-section">
+                    <h3>Category</h3>
+                    <div class="filter-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="category" value="electronics">
+                            Electronics
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="category" value="computers">
+                            Computers
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="category" value="accessories">
+                            Accessories
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="category" value="mobile">
+                            Mobile Devices
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="filter-section">
+                    <h3>Price Range</h3>
+                    <div class="filter-group">
+                        <div class="price-range-display">
+                            <span>$<span id="min-price">0</span></span> - 
+                            <span>$<span id="max-price">2000</span></span>
+                        </div>
+                        <input type="range" id="price-min" min="0" max="2000" value="0" step="50">
+                        <input type="range" id="price-max" min="0" max="2000" value="2000" step="50">
+                        <div class="price-inputs">
+                            <input type="number" id="price-min-input" value="0" min="0" max="2000">
+                            <span>to</span>
+                            <input type="number" id="price-max-input" value="2000" min="0" max="2000">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="filter-section">
+                    <h3>Brand</h3>
+                    <div class="filter-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="brand" value="dell">
+                            Dell
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="brand" value="hp">
+                            HP
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="brand" value="lenovo">
+                            Lenovo
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="brand" value="apple">
+                            Apple
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="brand" value="samsung">
+                            Samsung
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="filter-section">
+                    <h3>Rating</h3>
+                    <div class="filter-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="rating" value="5">
+                            ⭐⭐⭐⭐⭐ 5 Stars
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="rating" value="4">
+                            ⭐⭐⭐⭐ 4 Stars & Up
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="rating" value="3">
+                            ⭐⭐⭐ 3 Stars & Up
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="filter-actions">
+                    <button id="save-filter-btn" class="btn-secondary">💾 Save Current Filter</button>
+                    <button id="clear-filters-btn" class="btn-secondary">Clear All</button>
+                </div>
+            </aside>
+            
+            <!-- Product Grid -->
+            <main class="product-grid">
+                <div class="products-header">
+                    <h2>Products <span id="product-count">(12 items)</span></h2>
+                    <div class="sort-options">
+                        <label for="sort-by">Sort by:</label>
+                        <select id="sort-by">
+                            <option value="relevance">Relevance</option>
+                            <option value="price-low">Price: Low to High</option>
+                            <option value="price-high">Price: High to Low</option>
+                            <option value="rating">Rating</option>
+                            <option value="newest">Newest</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div id="products-container" class="products">
+                    <!-- Products will be dynamically loaded here -->
+                </div>
+            </main>
+        </div>
+    </div>
+    
+    <!-- Save Filter Modal -->
+    <div id="save-filter-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Save Your Filter</h3>
+            <input type="text" id="filter-name-input" placeholder="Enter filter name (e.g., 'Budget Laptops')">
+            <button id="confirm-save-btn" class="btn-primary">Save</button>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>

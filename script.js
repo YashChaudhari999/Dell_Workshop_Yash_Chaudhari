@@ -36,6 +36,9 @@ let currentFilters = {
     ratings: []
 };
 
+// Current filtered products
+let currentFilteredProducts = [...products];
+
 // Initialize the application
 document.addEventListener('DOMContentLoaded', function() {
     initializeFilters();
@@ -169,7 +172,7 @@ function applyFilters() {
         // Category filter
         const categoryMatch = currentFilters.categories.length === 0 || 
             currentFilters.categories.some(cat => 
-                product.category.toLowerCase().includes(cat.toLowerCase())
+                product.category.toLowerCase() === cat.toLowerCase()
             );
         
         // Brand filter
@@ -189,6 +192,7 @@ function applyFilters() {
         return categoryMatch && brandMatch && priceMatch && ratingMatch;
     });
     
+    currentFilteredProducts = filteredProducts;
     renderProducts(filteredProducts);
 }
 
@@ -220,10 +224,10 @@ function applySavedFilter(filterName) {
         document.getElementById('price-min-input').value = 1000;
         
         // Check laptops
-        const laptopsCheck = document.querySelector('input[name="recent-category"][value="laptops"]');
+        const laptopsCheck = document.querySelector('input[name="recent-category"][value="Laptops"]');
         if (laptopsCheck) {
             laptopsCheck.checked = true;
-            updateFilterArray('categories', 'laptops', true);
+            updateFilterArray('categories', 'Laptops', true);
         }
     }
     
@@ -239,6 +243,8 @@ function clearAllFilters() {
         maxPrice: 2000,
         ratings: []
     };
+    
+    currentFilteredProducts = [...products];
     
     // Reset all checkboxes
     document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
@@ -284,7 +290,7 @@ function renderProducts(productsToRender) {
 
 // Sort products
 function sortProducts(sortBy) {
-    let sortedProducts = [...products];
+    let sortedProducts = [...currentFilteredProducts];
     
     switch(sortBy) {
         case 'price-low':
@@ -311,12 +317,31 @@ function showSaveFilterModal() {
     document.getElementById('save-filter-modal').style.display = 'block';
 }
 
+// Show toast notification
+function showToast(message, type = 'success') {
+    const toast = document.createElement('div');
+    toast.className = `toast toast-${type}`;
+    toast.textContent = message;
+    document.body.appendChild(toast);
+    
+    setTimeout(() => {
+        toast.classList.add('show');
+    }, 100);
+    
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => {
+            document.body.removeChild(toast);
+        }, 300);
+    }, 3000);
+}
+
 // Save current filter
 function saveCurrentFilter() {
-    const filterName = document.getElementById('filter-name-input').value;
+    const filterName = document.getElementById('filter-name-input').value.trim();
     
     if (!filterName) {
-        alert('Please enter a filter name');
+        showToast('Please enter a filter name', 'error');
         return;
     }
     
@@ -331,7 +356,7 @@ function saveCurrentFilter() {
     newButton.dataset.filter = filterName.toLowerCase().replace(/\s+/g, '-');
     newButton.addEventListener('click', function() {
         // Apply the current filter state when clicked
-        alert(`Applied saved filter: ${filterName}`);
+        showToast(`Applied saved filter: ${filterName}`, 'info');
     });
     
     savedFiltersContainer.appendChild(newButton);
@@ -341,5 +366,5 @@ function saveCurrentFilter() {
     document.getElementById('filter-name-input').value = '';
     
     // Show success message
-    alert(`Filter "${filterName}" saved successfully!`);
+    showToast(`Filter "${filterName}" saved successfully!`, 'success');
 }
